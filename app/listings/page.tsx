@@ -3,11 +3,10 @@
 import { useEffect, useState } from 'react';
 
 import { parseCSVFile } from '@/lib/utils';
+import { CSV_FILE_PATH } from '@/lib/constants';
 
 const ListingsPage = () => {
   const [parsedCSVData, setParsedCSVData] = useState<Record<string, any>[]>([]);
-
-  const CSV_FILE_PATH = '/data/zillow-properties-listing-information__new.csv';
 
   useEffect(() => {
     const fetchAndParseCSVFile = async () => {
@@ -17,7 +16,7 @@ const ListingsPage = () => {
 
       if (!csvFile.ok)
         throw new Error(
-          `HTTP error! Status: ${csvFile.status}\nFailed to find the specified CSV file`,
+          `Failed to find the specified CSV file (status: ${csvFile.status})`,
         );
 
       const response = await csvFile.text();
