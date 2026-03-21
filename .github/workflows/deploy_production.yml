@@ -36,6 +36,8 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm install
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Install Vercel CLI Globally
         run: pnpm install --global vercel@latest
