@@ -1,0 +1,26 @@
+export type TPropertyListing = {
+  id: number;
+  address: string;
+  bedrooms: string;
+  bathrooms: string;
+  price: string;
+  yearBuilt: string;
+  listingDataSource: string;
+  longitude: string;
+  latitude: string;
+  livingArea: string;
+  currency: string;
+  dateSoldString: string;
+  country: string;
+  photoCount: string;
+  livingAreaUnits: string;
+  description: string | null;
+  daysOnZillow: string;
+  brokerageName: string | null;
+  propertyTypeDimension: string;
+  photos: string;
+  url: string | null;
+  isFeatured: string;
+  interior: string | null;
+  tag: string | null;
+};
