@@ -26,15 +26,14 @@ model PropertyListing {
   currency              String
   dateSoldString        String
   country               String
-  photoCount            String
   livingAreaUnits       String
-  description           String?
+  description           String
   daysOnZillow          String
-  brokerageName         String?
+  brokerageName         String
   propertyTypeDimension String
   photos                String
   url                   String?
   isFeatured            String
-  interior              String?
+  interior              String
   tag                   String?
 }

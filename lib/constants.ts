@@ -1,5 +1,3 @@
-const CSV_FILE_PATH = '/data/zillow-properties-listing-information.csv';
-
 const CSV_FILE_NAME = 'zillow-properties-listing-information.csv';
 
 const CSV_EXAMPLE_DATA = {
@@ -32,4 +30,4 @@ const CSV_EXAMPLE_DATA = {
   tag: 'Off market',
 };
 
-export { CSV_FILE_PATH, CSV_FILE_NAME, CSV_EXAMPLE_DATA };
+export { CSV_FILE_NAME, CSV_EXAMPLE_DATA };

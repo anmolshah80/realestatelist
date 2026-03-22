@@ -12,15 +12,14 @@ export type TPropertyListing = {
   currency: string;
   dateSoldString: string;
   country: string;
-  photoCount: string;
   livingAreaUnits: string;
-  description: string | null;
+  description: string;
   daysOnZillow: string;
-  brokerageName: string | null;
+  brokerageName: string;
   propertyTypeDimension: string;
   photos: string;
   url: string | null;
   isFeatured: string;
-  interior: string | null;
+  interior: string;
   tag: string | null;
 };

@@ -59,30 +59,26 @@ const ListingsPage = () => {
     return `${addressObj.streetAddress}, ${addressObj.city}, ${addressObj.state} ${addressObj.zipcode}`;
   };
 
-  // const formatImageUrl = (photos: string) => {
-  //   const photosArray = JSON.parse(photos);
-
-  //   if (photosArray.length === 0) return '/assets/placeholder-image.webp';
-
-  //   return photosArray[0];
-  // };
-
   return (
-    <main>
-      <h1>Featured Listings</h1>
+    <main className="px-8 py-10">
+      <h1 className="font-bold text-3xl">Featured Listings</h1>
 
-      {listings.map((listing) => (
-        <ListingCard
-          key={listing.id}
-          bathrooms={listing.bathrooms || 'N/A'}
-          bedrooms={listing.bedrooms || 'N/A'}
-          livingArea={listing.livingArea || 'N/A'}
-          livingAreaUnits={listing.livingAreaUnits || 'Square Meters'}
-          location={formatAddress(listing.address)}
-          price={listing.price}
-          // imageSrc={formatImageUrl(listing.photos)}
-        />
-      ))}
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 mt-4">
+        {listings.map((listing) => (
+          <ListingCard
+            key={listing.id}
+            listingId={listing.id}
+            bathrooms={listing.bathrooms}
+            bedrooms={listing.bedrooms}
+            livingArea={listing.livingArea}
+            livingAreaUnits={listing.livingAreaUnits}
+            location={formatAddress(listing.address)}
+            price={listing.price}
+            imageSrc={listing.photos}
+            listingType={listing.tag}
+          />
+        ))}
+      </div>
     </main>
   );
 };
