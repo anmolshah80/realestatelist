@@ -34,13 +34,16 @@ const ListingCard = ({
 }: ListingCardProps) => {
   const getBathroomTooltip = (value: string): string => {
     const bathValue = parseFloat(value);
+
     if (isNaN(bathValue)) return value;
 
     const full = Math.floor(bathValue);
 
     const hasHalf = bathValue % 1 !== 0;
+
     const fullText = `${full} full bath${full !== 1 ? 's' : ''}`;
-    const halfText = hasHalf ? ` + 1 half baths` : '';
+
+    const halfText = hasHalf ? ` + 1 half bath` : '';
 
     return fullText + halfText;
   };
@@ -57,6 +60,10 @@ const ListingCard = ({
           fill
           className="object-cover"
         />
+
+        <p className="absolute top-4 left-4 bg-white text-gray-800 text-xs font-bold px-3 py-1 rounded-md">
+          {listingType ? listingType.toUpperCase() : 'RENT'}
+        </p>
       </div>
 
       <div className="flex flex-col px-6 py-8 md:p-4 flex-1 border border-gray-300 border-t-0 rounded-b-md gap-2 md:gap-0">
@@ -64,7 +71,7 @@ const ListingCard = ({
         <p className="text-gray-600 text-xl md:text-lg mt-1">{location}</p>
 
         <div className="flex items-center justify-between gap-2 mt-4 text-gray-700 text-base">
-          <p>{bedrooms} Beds</p>
+          <p>{bedrooms} beds</p>
           <p>
             {formatNumber(livingArea)}{' '}
             {livingAreaUnits === 'Square Feet' ? 'sq ft' : 'sq m'}
@@ -73,7 +80,7 @@ const ListingCard = ({
           <Tooltip>
             <TooltipTrigger>
               <p className="border-b border-dotted border-gray-400 cursor-help group">
-                {Math.ceil(parseFloat(bathrooms))} Baths
+                {Math.ceil(parseFloat(bathrooms))} baths
               </p>
             </TooltipTrigger>
             <TooltipContent>
