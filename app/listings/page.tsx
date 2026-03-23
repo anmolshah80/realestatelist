@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import ListingCard from '@/components/listing-card';
+import ListingsLoading from '@/components/listings-loading';
 
 import { TPropertyListing } from '@/lib/types';
 
@@ -34,21 +35,7 @@ const ListingsPage = () => {
 
   console.log('totalRecordsCount: ', totalRecordsCount);
 
-  if (loading)
-    return (
-      <main>
-        <p>Loading...</p>
-      </main>
-    );
-
-  if (!listings || listings.length === 0) {
-    return (
-      <main>
-        <h1>Featured Listings</h1>
-        <p>No listings found.</p>
-      </main>
-    );
-  }
+  if (loading) return <ListingsLoading />;
 
   console.log('Listings: ', listings);
 
@@ -63,22 +50,26 @@ const ListingsPage = () => {
     <main className="px-8 py-10">
       <h1 className="font-bold text-3xl">Featured Listings</h1>
 
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 mt-4">
-        {listings.map((listing) => (
-          <ListingCard
-            key={listing.id}
-            listingId={listing.id}
-            bathrooms={listing.bathrooms}
-            bedrooms={listing.bedrooms}
-            livingArea={listing.livingArea}
-            livingAreaUnits={listing.livingAreaUnits}
-            location={formatAddress(listing.address)}
-            price={listing.price}
-            imageSrc={listing.photos}
-            listingType={listing.tag}
-          />
-        ))}
-      </div>
+      {!listings || listings.length === 0 ? (
+        <p className="text-gray-600 text-2xl mt-6">No listings found.</p>
+      ) : (
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mt-4">
+          {listings.map((listing) => (
+            <ListingCard
+              key={listing.id}
+              listingId={listing.id}
+              bathrooms={listing.bathrooms}
+              bedrooms={listing.bedrooms}
+              livingArea={listing.livingArea}
+              livingAreaUnits={listing.livingAreaUnits}
+              location={formatAddress(listing.address)}
+              price={listing.price}
+              imageSrc={listing.photos}
+              listingType={listing.tag}
+            />
+          ))}
+        </div>
+      )}
     </main>
   );
 };
