@@ -13,7 +13,7 @@ import { TPropertyListing } from '@/lib/types';
 import { MAX_RESULTS_PER_PAGE } from '@/lib/constants';
 import PaginationControls from '@/components/pagination-controls';
 
-const pageNumberSchema = zod.coerce.number().int().positive().optional();
+const pageNumberSchema = zod.coerce.number().min(1).int().positive().optional();
 
 const ListingsPage = () => {
   const [listings, setListings] = useState<TPropertyListing[]>([]);
@@ -26,9 +26,11 @@ const ListingsPage = () => {
 
   const parsedPage = pageNumberSchema.safeParse(page);
 
-  if (!parsedPage.success) {
-    return notFound();
-  }
+  console.log('page parsedPage: ', page, parsedPage);
+
+  // if (!parsedPage.success) {
+  //   return notFound();
+  // }
 
   useEffect(() => {
     const fetchListings = async () => {
