@@ -25,3 +25,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - [Route Handlers (API Routes in Next.js)](https://nextjs.org/docs/app/getting-started/route-handlers#route-handlers)
 
 - [Building APIs with Next.js](https://nextjs.org/blog/building-apis-with-nextjs)
+
+- [useSearchParams (client component hook to read the current URL's query string)](https://nextjs.org/docs/app/api-reference/functions/use-search-params)

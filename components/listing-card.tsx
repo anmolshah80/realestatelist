@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 import {
@@ -6,6 +5,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import ImageWithFallback from '@/components/image-with-fallback';
 
 import { formatNumber } from '@/lib/utils';
 
@@ -54,11 +54,10 @@ const ListingCard = ({
       className="flex flex-col h-full transition-all duration-150 ease-out hover:shadow-xl hover:shadow-gray-200"
     >
       <div className="relative h-96 md:h-72 w-full overflow-hidden rounded-t-md">
-        <Image
+        <ImageWithFallback
           src={imageSrc}
+          fallbackImageSrc={'/assets/placeholder-image.webp'}
           alt={`Property image with ${bedrooms} bedrooms and ${bathrooms} bathrooms`}
-          fill
-          className="object-cover"
         />
 
         <p className="absolute top-4 left-4 bg-white text-gray-800 text-xs font-bold px-3 py-1 rounded-md">

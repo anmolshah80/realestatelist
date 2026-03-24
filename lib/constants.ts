@@ -30,4 +30,6 @@ const CSV_EXAMPLE_DATA = {
   tag: 'Off market',
 };
 
-export { CSV_FILE_NAME, CSV_EXAMPLE_DATA };
+const MAX_RESULTS_PER_PAGE = 6;
+
+export { CSV_FILE_NAME, CSV_EXAMPLE_DATA, MAX_RESULTS_PER_PAGE };

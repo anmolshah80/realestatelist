@@ -9,6 +9,7 @@ export type TPropertyListing = {
   longitude: string;
   latitude: string;
   livingArea: string;
+  lotSize: string;
   currency: string;
   dateSoldString: string;
   country: string;
@@ -22,4 +23,18 @@ export type TPropertyListing = {
   isFeatured: string;
   interior: string;
   tag: string | null;
+  lastSoldPrice: string;
+  priceHistory: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type TUser = {
+  id: number;
+  email: string;
+  password: string;
+  name: string | null;
+  isAdmin: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 };

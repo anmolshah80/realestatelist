@@ -13,7 +13,7 @@ datasource db {
 }
 
 model PropertyListing {
-  id                    Int     @id @default(autoincrement())
+  id                    Int      @id @default(autoincrement())
   address               String
   bedrooms              String
   bathrooms             String
@@ -23,6 +23,7 @@ model PropertyListing {
   longitude             String
   latitude              String
   livingArea            String
+  lotSize               String
   currency              String
   dateSoldString        String
   country               String
@@ -36,4 +37,23 @@ model PropertyListing {
   isFeatured            String
   interior              String
   tag                   String?
+  lastSoldPrice         String
+  priceHistory          String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([price])
+  @@index([propertyTypeDimension])
+  @@index([brokerageName])
+  @@index([tag])
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -1,5 +1,112 @@
-import ListingsPage from '@/app/listings/page';
+'use client';
 
-export default function Home() {
-  return <ListingsPage />;
-}
+import * as zod from 'zod';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { notFound } from 'next/navigation';
+
+import ListingCard from '@/components/listing-card';
+import ListingsLoading from '@/components/listings-loading';
+import SearchForm from '@/components/search-form';
+
+import { TPropertyListing } from '@/lib/types';
+import { MAX_RESULTS_PER_PAGE } from '@/lib/constants';
+import PaginationControls from '@/components/pagination-controls';
+
+const pageNumberSchema = zod.coerce.number().int().positive().optional();
+
+const ListingsPage = () => {
+  const [listings, setListings] = useState<TPropertyListing[]>([]);
+  const [totalRecordsCount, setTotalRecordsCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const searchParams = useSearchParams();
+
+  const page = searchParams.get('page');
+
+  const parsedPage = pageNumberSchema.safeParse(page);
+
+  if (!parsedPage.success) {
+    return notFound();
+  }
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      setLoading(true);
+
+      try {
+        const response = await fetch(
+          `/api/v1/listings?page=${parsedPage.data || 1}`,
+        );
+
+        const { listings, totalRecordsCount } = await response.json();
+
+        setListings(listings);
+        setTotalRecordsCount(totalRecordsCount);
+      } catch (error) {
+        console.error('Error fetching listings: ', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchListings();
+  }, [parsedPage.data]);
+
+  console.log('totalRecordsCount: ', totalRecordsCount);
+
+  if (loading) return <ListingsLoading />;
+
+  console.log('Listings: ', listings);
+
+  const formatAddress = (address: string) => {
+    // address: "{\"city\":\"Huntington Beach\",\"state\":\"CA\",\"streetAddress\":\"19411 Castlewood Cir\",\"zipcode\":\"92648\"}"
+    const addressObj = JSON.parse(address);
+
+    return `${addressObj.streetAddress}, ${addressObj.city}, ${addressObj.state} ${addressObj.zipcode}`;
+  };
+
+  const totalPages = Math.ceil(totalRecordsCount / MAX_RESULTS_PER_PAGE);
+
+  return (
+    <main className="flex flex-col items-start justify-between w-full px-8 py-10 gap-4">
+      <h1 className="text-4xl font-bold">Real Estate Listings</h1>
+
+      <SearchForm />
+
+      <section className="flex flex-col">
+        <h2 className="font-bold text-3xl">Featured Listings</h2>
+
+        {!listings || listings.length === 0 ? (
+          <p className="text-gray-600 text-2xl mt-6">No listings found.</p>
+        ) : (
+          <>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mt-4">
+              {listings.map((listing) => (
+                <ListingCard
+                  key={listing.id}
+                  listingId={listing.id}
+                  bathrooms={listing.bathrooms}
+                  bedrooms={listing.bedrooms}
+                  livingArea={listing.livingArea}
+                  livingAreaUnits={listing.livingAreaUnits}
+                  location={formatAddress(listing.address)}
+                  price={listing.price}
+                  imageSrc={listing.photos}
+                  listingType={listing.tag}
+                />
+              ))}
+            </div>
+
+            <PaginationControls
+              currentPage={page ? parseInt(page) : 1}
+              totalPages={totalPages}
+            />
+          </>
+        )}
+      </section>
+    </main>
+  );
+};
+
+export default ListingsPage;
