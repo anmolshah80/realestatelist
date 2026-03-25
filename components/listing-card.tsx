@@ -48,6 +48,10 @@ const ListingCard = ({
     return fullText + halfText;
   };
 
+  const totalBaths = Math.ceil(parseFloat(bathrooms));
+  const formattedBathsText =
+    totalBaths > 1 ? `${totalBaths} baths` : `${totalBaths} bath`;
+
   return (
     <Link
       href={`/listings/${listingId}`}
@@ -79,7 +83,7 @@ const ListingCard = ({
           <Tooltip>
             <TooltipTrigger>
               <p className="border-b border-dotted border-gray-400 cursor-help group">
-                {Math.ceil(parseFloat(bathrooms))} baths
+                {formattedBathsText}
               </p>
             </TooltipTrigger>
             <TooltipContent>

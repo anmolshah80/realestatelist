@@ -6,7 +6,7 @@ import ListingsContent from '@/components/listings-content';
 
 const ListingsPage = () => {
   return (
-    <main className="flex flex-col items-start justify-between w-full px-8 py-10 gap-8">
+    <main className="flex flex-col items-center justify-between w-full px-8 py-10 gap-8">
       <h1 className="text-4xl font-bold mx-auto">Real Estate Listings</h1>
 
       <SearchForm />

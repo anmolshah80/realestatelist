@@ -2,32 +2,35 @@ const CSV_FILE_NAME = 'zillow-properties-listing-information.csv';
 
 const CSV_EXAMPLE_DATA = {
   address:
-    '{"city":"Vista","state":"CA","streetAddress":"349 Yacon St","zipcode":"92083"}',
-  bedrooms: '3',
-  bathrooms: '1.5',
-  price: '768800',
-  yearBuilt: '1957',
-  listingDataSource: 'Legacy',
-  longitude: '-117.26301',
-  latitude: '33.199516',
-  livingArea: '1552',
+    '{\"city\":\"Huntington Beach\",\"state\":\"CA\",\"streetAddress\":\"19411 Castlewood Cir\",\"zipcode\":\"92648\"}',
+  bedrooms: '2',
+  bathrooms: '3',
+  price: '1475000',
+  yearBuilt: '1988',
+  listingDataSource: 'Phoenix',
+  longitude: '-118.026474',
+  latitude: '33.68005',
+  livingArea: '2298',
+  lotSize: '15752',
   currency: 'USD',
-  dateSoldString: '11/13/2003',
+  dateSoldString: '7/29/2022',
   country: 'USA',
-  photoCount: '1',
   livingAreaUnits: 'Square Feet',
   description:
-    'This 1552 square foot single family home has 3 bedrooms and 1.5 bathrooms. This home is located at 349 Yacon St, Vista, CA 92083.',
-  daysOnZillow: '7569',
-  brokerageName: '',
-  propertyTypeDimension: 'Single Family',
+    "JUST LISTED IN THE GUARD GATED COMMUNITY OF SEACLIFF ON THE GREENS!  This 500 model has a desirable corner lot.  Extremely light and bright  with 2298 square feet of living space with 2.5 baths, 2 full bedrooms + loft area and a office.  Master Bedroom has vaulted ceiling, walk-in closet and a separate wardrobe closet. Master bath has just been remodeled with soaking tub, dual sinks and vanity and wall in shower. The other bathrooms are also redone. Central vacuum, shutters thru out and updated window and sliders. There is a sound system thru out home and also on patio.  There is a spacious two car garage with lots of build-in cabinets.  Close proximity to the beach, Pacific City and restaurants.  Within walking distance to The Huntington Club, golf and tennis.  THIS ONE WON'T LAST!!",
+  daysOnZillow: '719',
+  brokerageName: 'Coldwell Banker Realty',
+  propertyTypeDimension: 'Townhouse',
   photos:
-    '[{"mixedSources":{"jpeg":[{"url":"https://maps.googleapis.com/maps/api/streetview?location=349+Yacon+St%2C+Vista%2C+CA+92083&size=192x144&key=AIzaSyARFMLB1na-BBWf7_R3-5YOQQaHqEJf6RQ&source=outdoor&&signature=Efw2pebmFxJVjhSoGlKcRYsq0Wo=","width":192},{"url":"https://maps.googleapis.com/maps/api/streetview?location=349+Yacon+St%2C+Vista%2C+CA+92083&size=384x288&key=AIzaSyARFMLB1na-BBWf7_R3-5YOQQaHqEJf6RQ&source=outdoor&&signature=wSJ3t99-RP1YKcPSsRi6N3NKyMc=","width":384},{"url":"https://maps.googleapis.com/maps/api/streetview?location=349+Yacon+St%2C+Vista%2C+CA+92083&size=576x432&key=AIzaSyARFMLB1na-BBWf7_R3-5YOQQaHqEJf6RQ&source=outdoor&&signature=aW7rqeUTWi0F_g1eqWDQhWbvA1o=","width":576},{"url":"https://maps.googleapis.com/maps/api/streetview?location=349+Yacon+St%2C+Vista%2C+CA+92083&size=768x576&key=AIzaSyARFMLB1na-BBWf7_R3-5YOQQaHqEJf6RQ&source=outdoor&&signature=78yjduPhvzBn3EeDlra0zyR2YTs=","width":768},{"url":"https://maps.googleapis.com/maps/api/streetview?location=349+Yacon+St%2C+Vista%2C+CA+92083&size=960x720&key=AIzaSyARFMLB1na-BBWf7_R3-5YOQQaHqEJf6RQ&source=outdoor&&signature=r8z8qL-0WytYg9eTwlLOIdKoIF0=","width":960},{"url":"https://maps.googleapis.com/maps/api/streetview?location=349+Yacon+St%2C+Vista%2C+CA+92083&size=1152x864&key=AIzaSyARFMLB1na-BBWf7_R3-5YOQQaHqEJf6RQ&source=outdoor&&signature=KReD7vEAJIu-MLkxsO9lg8z7Aqk=","width":1152},{"url":"https://maps.googleapis.com/maps/api/streetview?location=349+Yacon+St%2C+Vista%2C+CA+92083&size=1344x1008&key=AIzaSyARFMLB1na-BBWf7_R3-5YOQQaHqEJf6RQ&source=outdoor&&signature=gEritn2vFUKJg-BHJRoae3KLcRA=","width":1344},{"url":"https://maps.googleapis.com/maps/api/streetview?location=349+Yacon+St%2C+Vista%2C+CA+92083&size=1536x1152&key=AIzaSyARFMLB1na-BBWf7_R3-5YOQQaHqEJf6RQ&source=outdoor&&signature=SrfJCEXm79bnaMYCNFmaXtjKMM8=","width":1536}]}}]',
-  url: 'https://www.zillow.com/homedetails/349-Yacon-St-Vista-CA-92083/16610100_zpid/',
-  isFeatured: 'FALSE',
+    'https://photos.zillowstatic.com/fp/8e1d019842a60b2f6db1da1cf18a7cc3-cc_ft_1152.jpg',
+  url: '',
+  isFeatured: 'TRUE',
   interior:
-    '{"bedrooms_and_bathrooms":{"bathrooms":1,"bedrooms":3,"half_bathroom":"null"},"other_interior_features":"Total interior livable area :1,552 sqft"}',
-  tag: 'Off market',
+    '{"bedrooms_and_bathrooms":{"bathrooms":2,"bedrooms":3,"full_bathrooms":2,"half_bathroom":"0"},"flooring":"Carpet, Laminate, Linoleum / Vinyl","heating":"Forced air, Electric, Gas","other_interior_features":"Total interior livable area :1,682 sqft"}',
+  tag: 'Available',
+  lastSoldPrice: '1475000',
+  priceHistory:
+    '[{"attributeSource":{"infoString2":"CRMLS","infoString3":"https://photos.zillowstatic.com/fp/9f61463932aa73f48f1ae3d056f0eb39-zillow_web_logo_inf_11.jpg"},"date":"2022-07-29","event":"Sold","postingIsRental":false,"price":1475000,"priceChangeRate":-1.601067378252168e-02,"pricePerSquareFoot":642,"showCountyLink":false,"source":"CRMLS","time":1659052800000},{"attributeSource":{"infoString2":"CRMLS","infoString3":"https://photos.zillowstatic.com/fp/9f61463932aa73f48f1ae3d056f0eb39-zillow_web_logo_inf_11.jpg"},"date":"2022-07-12","event":"Pending sale","postingIsRental":false,"price":1499000,"priceChangeRate":0,"pricePerSquareFoot":652,"showCountyLink":false,"source":"CRMLS","time":1657584000000},{"attributeSource":{"infoString2":"CRMLS","infoString3":"https://photos.zillowstatic.com/fp/9f61463932aa73f48f1ae3d056f0eb39-zillow_web_logo_inf_11.jpg"},"date":"2022-05-29","event":"Contingent","postingIsRental":false,"price":1499000,"priceChangeRate":0,"pricePerSquareFoot":652,"showCountyLink":false,"source":"CRMLS","time":1653782400000},{"attributeSource":{"infoString2":"CRMLS","infoString3":"https://photos.zillowstatic.com/fp/9f61463932aa73f48f1ae3d056f0eb39-zillow_web_logo_inf_11.jpg"},"date":"2022-05-27","event":"Price change","postingIsRental":false,"price":1499000,"priceChangeRate":-4.825396825396826e-02,"pricePerSquareFoot":652,"showCountyLink":false,"source":"CRMLS","time":1653609600000},{"attributeSource":{"infoString2":"CRMLS","infoString3":"https://photos.zillowstatic.com/fp/9f61463932aa73f48f1ae3d056f0eb39-zillow_web_logo_inf_11.jpg"},"date":"2022-05-13","event":"Listed for sale","postingIsRental":false,"price":1575000,"priceChangeRate":2.539325842696629e+00,"pricePerSquareFoot":685,"showCountyLink":false,"source":"CRMLS","time":1652400000000},{"attributeSource":{"infoString2":"Public Record"},"date":"1999-05-27","event":"Sold","postingIsRental":false,"price":445000,"priceChangeRate":3.650306748466258e-01,"pricePerSquareFoot":194,"showCountyLink":false,"source":"Public Record","time":927763200000},{"attributeSource":{"infoString2":"Public Record"},"date":"1997-12-31","event":"Sold","postingIsRental":false,"price":326000,"priceChangeRate":0,"pricePerSquareFoot":142,"showCountyLink":false,"source":"Public Record","time":883526400000}]',
 };
 
 const MAX_RESULTS_PER_PAGE = 6;
