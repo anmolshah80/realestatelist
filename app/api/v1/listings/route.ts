@@ -23,6 +23,7 @@ export async function GET(request: NextRequest) {
 
   // build WHERE conditions
   const conditions: string[] = [];
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const params: any[] = [];
   let paramIndex = 1;
 
@@ -87,6 +88,7 @@ export async function GET(request: NextRequest) {
   params.push(offset, limit);
 
   // execute and cast result to any[] (Prisma returns any)
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const listings = (await prisma.$queryRawUnsafe(mainSql, ...params)) as any[];
 
   if (!listings || listings.length === 0)
