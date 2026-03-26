@@ -11,10 +11,14 @@ const ListingsPage = () => {
 
       <SearchForm />
 
-      <section className="flex flex-col">
-        <h2 className="font-bold text-3xl">Featured Listings</h2>
+      <section className="flex flex-col mt-2">
+        <h2 className="font-semibold text-3xl mx-auto">Featured Listings</h2>
 
-        <Suspense fallback={<ListingsLoading />}>
+        <Suspense
+          fallback={
+            <ListingsLoading className="top-[50%] md:top-[80%] xl:top-[70%]" />
+          }
+        >
           <ListingsContent />
         </Suspense>
       </section>

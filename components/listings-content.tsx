@@ -8,7 +8,7 @@ import ListingCard from '@/components/listing-card';
 import PaginationControls from '@/components/pagination-controls';
 import ListingsLoading from '@/components/listings-loading';
 
-import { MAX_RESULTS_PER_PAGE } from '@/lib/constants';
+import { FALLBACK_ADDRESS, MAX_RESULTS_PER_PAGE } from '@/lib/constants';
 import { TPropertyListing } from '@/lib/types';
 
 const pageNumberSchema = zod.coerce.number().min(1).int().positive().optional();
@@ -20,20 +20,38 @@ const ListingsContent = () => {
 
   const searchParams = useSearchParams();
 
+  // get all filter values from URL
   const page = searchParams.get('page');
+  const priceMin = searchParams.get('price_min');
+  const priceMax = searchParams.get('price_max');
+  const beds = searchParams.get('beds');
+  const baths = searchParams.get('baths');
+  const propertyType = searchParams.get('propertyType');
+  const keyword = searchParams.get('keyword');
 
   const parsedPage = pageNumberSchema.safeParse(page);
+  const currentPage = parsedPage.data || 1;
 
-  console.log('page parsedPage: ', page, parsedPage);
+  console.log('currentPage: ', currentPage);
 
   useEffect(() => {
     const fetchListings = async () => {
       setLoading(true);
 
       try {
-        const response = await fetch(
-          `/api/v1/listings?page=${parsedPage.data || 1}`,
-        );
+        // build query string with all filters
+        const params = new URLSearchParams();
+
+        params.set('page', String(currentPage));
+
+        if (priceMin) params.set('price_min', priceMin);
+        if (priceMax) params.set('price_max', priceMax);
+        if (beds) params.set('beds', beds);
+        if (baths) params.set('baths', baths);
+        if (propertyType) params.set('propertyType', propertyType);
+        if (keyword) params.set('keyword', keyword);
+
+        const response = await fetch(`/api/v1/listings?${params.toString()}`);
 
         const { listings, totalRecordsCount } = await response.json();
 
@@ -47,11 +65,12 @@ const ListingsContent = () => {
     };
 
     fetchListings();
-  }, [parsedPage.data]);
+  }, [currentPage, priceMin, priceMax, beds, baths, propertyType, keyword]);
 
   console.log('totalRecordsCount: ', totalRecordsCount);
 
-  if (loading) return <ListingsLoading />;
+  if (loading)
+    return <ListingsLoading className="top-[50%] md:top-[80%] xl:top-[70%]" />;
 
   console.log('Listings: ', listings);
 
@@ -59,10 +78,13 @@ const ListingsContent = () => {
     return <p className="text-gray-600 text-2xl mt-6">No listings found.</p>;
 
   const formatAddress = (address: string) => {
-    // address: "{\"city\":\"Huntington Beach\",\"state\":\"CA\",\"streetAddress\":\"19411 Castlewood Cir\",\"zipcode\":\"92648\"}"
-    const addressObj = JSON.parse(address);
+    try {
+      const addressObj = JSON.parse(address);
 
-    return `${addressObj.streetAddress}, ${addressObj.city}, ${addressObj.state} ${addressObj.zipcode}`;
+      return `${addressObj.streetAddress}, ${addressObj.city}, ${addressObj.state} ${addressObj.zipcode}`;
+    } catch {
+      return FALLBACK_ADDRESS;
+    }
   };
 
   const totalPages = Math.ceil(totalRecordsCount / MAX_RESULTS_PER_PAGE);
@@ -86,10 +108,7 @@ const ListingsContent = () => {
         ))}
       </div>
 
-      <PaginationControls
-        currentPage={page ? parseInt(page) : 1}
-        totalPages={totalPages}
-      />
+      <PaginationControls currentPage={currentPage} totalPages={totalPages} />
     </>
   );
 };

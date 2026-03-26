@@ -1,4 +1,4 @@
-# Real-estate listings
+# Real Estate Listings
 
 ## Getting Started
 
@@ -27,3 +27,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - [Building APIs with Next.js](https://nextjs.org/blog/building-apis-with-nextjs)
 
 - [useSearchParams (client component hook to read the current URL's query string)](https://nextjs.org/docs/app/api-reference/functions/use-search-params)
+
+- [Unsupported types - Prisma](https://www.prisma.io/docs/orm/prisma-client/using-raw-sql/raw-queries#unsupported-types)

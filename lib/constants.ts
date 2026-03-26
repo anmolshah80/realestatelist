@@ -35,4 +35,21 @@ const CSV_EXAMPLE_DATA = {
 
 const MAX_RESULTS_PER_PAGE = 6;
 
-export { CSV_FILE_NAME, CSV_EXAMPLE_DATA, MAX_RESULTS_PER_PAGE };
+const PROPERTY_TYPES = [
+  'Apartment',
+  'Condo',
+  'Manufactured',
+  'Multi Family',
+  'Single Family',
+  'Townhouse',
+];
+
+const FALLBACK_ADDRESS = '7833 Marina Dr, Bridgeport, NY 13030';
+
+export {
+  CSV_FILE_NAME,
+  CSV_EXAMPLE_DATA,
+  MAX_RESULTS_PER_PAGE,
+  PROPERTY_TYPES,
+  FALLBACK_ADDRESS,
+};
