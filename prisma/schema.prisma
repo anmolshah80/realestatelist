@@ -13,7 +13,7 @@ datasource db {
 }
 
 model PropertyListing {
-  id                    Int      @id @default(autoincrement())
+  id                    Int                      @id @default(autoincrement())
   address               String
   bedrooms              String
   bathrooms             String
@@ -39,8 +39,10 @@ model PropertyListing {
   tag                   String?
   lastSoldPrice         String
   priceHistory          String
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  searchVector          Unsupported("tsvector")? // read‑only, managed by the database
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([price])
   @@index([propertyTypeDimension])

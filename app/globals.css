@@ -33,8 +33,7 @@ body {
 .spinner {
   position: absolute;
   animation: spinner 1s infinite linear;
-  left: 52%;
-  top: 40%;
+  left: 50%;
   width: 100px;
   height: 100px;
 }
