@@ -91,12 +91,12 @@ const ListingsDetailPage = async ({
             </p>
           </div>
 
-          <h2 className="text-3xl font-bold mt-2 sm:mt-4 sm:text-4xl lg:text-5xl">
+          <h2 className="text-3xl font-bold mt-2 sm:mt-4 sm:text-4xl">
             ${formatNumber(propertyListing.price)}
           </h2>
         </div>
 
-        <div className="flex justify-start items-center md:justify-center gap-2 mt-2 xl:mt-4 sm:gap-4">
+        <div className="flex justify-start items-center md:justify-center gap-2 mt-2 xl:mt-4 sm:gap-4 xl:gap-8">
           <div className="flex gap-2 items-center justify-center">
             <BedDouble size={20} className="lg:w-8 lg:h-8" />
             <span className="font-bold lg:text-xl">
@@ -180,10 +180,28 @@ const ListingsDetailPage = async ({
             </span>
           </p>
 
-          {isAdminMode && propertyListing.priceHistory && (
-            <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded">
-              <h3 className="font-bold">Admin Notes</h3>
-              <p>{JSON.parse(propertyListing.priceHistory)}</p>
+          {isAdminMode && (
+            <div className="mt-6">
+              <p className="text-base md:text-lg font-semibold">
+                Last Sold Price:{' '}
+                <span className="font-normal">
+                  ${formatNumber(propertyListing.lastSoldPrice) || 'N/A'}
+                </span>
+              </p>
+
+              <p className="text-base md:text-lg font-semibold">
+                Longitude:{' '}
+                <span className="font-normal">
+                  {propertyListing.longitude || 'N/A'}
+                </span>
+              </p>
+
+              <p className="text-base md:text-lg font-semibold">
+                Latitude:{' '}
+                <span className="font-normal">
+                  {propertyListing.latitude || 'N/A'}
+                </span>
+              </p>
             </div>
           )}
         </section>
