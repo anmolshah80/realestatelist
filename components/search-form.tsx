@@ -168,8 +168,8 @@ const SearchForm = () => {
         </SelectContent>
       </Select>
 
-      <Label className="relative block w-3xs">
-        <span className="absolute inset-y-0 left-2 flex items-center pl-3">
+      <Label className="w-3xs flex bg-background shadow-sm rounded-lg border border-input border-blue-500 gap-0">
+        <span className="pl-3 pr-2 ml-auto">
           <Search className="h-5 w-5 text-black/70" />
         </span>
 
@@ -185,12 +185,12 @@ const SearchForm = () => {
           maxLength={150}
           value={keyword}
           onChange={(event) => setKeyword(event.target.value)}
-          className="block h-11 rounded-md border border-input py-2 pl-13 pr-3 text-gray-700 shadow-sm placeholder:italic placeholder:text-gray-500 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:opacity-50 dark:sm:text-base bg-background border-blue-500 focus-visible:ring-transparent focus-visible:ring-0"
+          className="block h-11 rounded-md border-input px-0 py-2 text-gray-700 placeholder:italic placeholder:text-gray-500 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:opacity-50 dark:sm:text-base bg-background border-blue-500 focus-visible:ring-transparent focus-visible:ring-0 border-0 rounded-0 shadow-none"
         />
 
         <span
           className={cn(
-            'group absolute inset-y-0 right-3 flex cursor-pointer items-center pr-2',
+            'group mr-auto flex cursor-pointer items-center pl-2 pr-3',
             {
               hidden: keyword === '',
             },

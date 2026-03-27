@@ -8,7 +8,8 @@ import ListingCard from '@/components/listing-card';
 import PaginationControls from '@/components/pagination-controls';
 import ListingsLoading from '@/components/listings-loading';
 
-import { FALLBACK_ADDRESS, MAX_RESULTS_PER_PAGE } from '@/lib/constants';
+import { MAX_RESULTS_PER_PAGE } from '@/lib/constants';
+import { cn, formatAddress } from '@/lib/utils';
 import { TPropertyListing } from '@/lib/types';
 
 const pageNumberSchema = zod.coerce.number().min(1).int().positive().optional();
@@ -77,21 +78,16 @@ const ListingsContent = () => {
   if (!listings || listings.length === 0)
     return <p className="text-gray-600 text-2xl mt-6">No listings found.</p>;
 
-  const formatAddress = (address: string) => {
-    try {
-      const addressObj = JSON.parse(address);
-
-      return `${addressObj.streetAddress}, ${addressObj.city}, ${addressObj.state} ${addressObj.zipcode}`;
-    } catch {
-      return FALLBACK_ADDRESS;
-    }
-  };
-
   const totalPages = Math.ceil(totalRecordsCount / MAX_RESULTS_PER_PAGE);
 
   return (
     <>
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mt-4">
+      <div
+        className={cn('grid gap-8 mt-4', {
+          'md:grid-cols-2': totalRecordsCount > 1,
+          'lg:grid-cols-3': totalRecordsCount >= 3,
+        })}
+      >
         {listings.map((listing) => (
           <ListingCard
             key={listing.id}

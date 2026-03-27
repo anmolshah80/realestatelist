@@ -29,3 +29,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - [useSearchParams (client component hook to read the current URL's query string)](https://nextjs.org/docs/app/api-reference/functions/use-search-params)
 
 - [Unsupported types - Prisma](https://www.prisma.io/docs/orm/prisma-client/using-raw-sql/raw-queries#unsupported-types)
+
+- [PostgreSQL Full-Text Search: A Powerful Alternative to Elasticsearch for Small to Medium Applications](https://iniakunhuda.medium.com/postgresql-full-text-search-a-powerful-alternative-to-elasticsearch-for-small-to-medium-d9524e001fe0)

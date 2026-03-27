@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/tooltip';
 import ImageWithFallback from '@/components/image-with-fallback';
 
-import { formatNumber } from '@/lib/utils';
+import { formatNumber, getBathroomTooltip } from '@/lib/utils';
 
 type ListingCardProps = {
   listingId: number;
@@ -32,22 +32,6 @@ const ListingCard = ({
   livingAreaUnits,
   listingType,
 }: ListingCardProps) => {
-  const getBathroomTooltip = (value: string): string => {
-    const bathValue = parseFloat(value);
-
-    if (isNaN(bathValue)) return value;
-
-    const full = Math.floor(bathValue);
-
-    const hasHalf = bathValue % 1 !== 0;
-
-    const fullText = `${full} full bath${full !== 1 ? 's' : ''}`;
-
-    const halfText = hasHalf ? ` + 1 half bath` : '';
-
-    return fullText + halfText;
-  };
-
   const totalBaths = Math.ceil(parseFloat(bathrooms));
   const formattedBathsText =
     totalBaths > 1 ? `${totalBaths} baths` : `${totalBaths} bath`;
@@ -62,6 +46,8 @@ const ListingCard = ({
           src={imageSrc}
           fallbackImageSrc={'/assets/placeholder-image.webp'}
           alt={`Property image with ${bedrooms} bedrooms and ${bathrooms} bathrooms`}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
 
         <p className="absolute top-4 left-4 bg-white text-gray-800 text-xs font-bold px-3 py-1 rounded-md">
