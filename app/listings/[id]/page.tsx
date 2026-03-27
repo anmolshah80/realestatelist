@@ -136,7 +136,7 @@ const ListingsDetailPage = async ({
         </h2>
 
         <div className="flex items-center gap-4 sm:gap-6 flex-wrap sm:mt-2">
-          <div className="flex items-center rounded-xl overflow-hidden w-31.25 h-18.75 lg:w-38 lg:h-20 p-3 bg-gray-200 gap-4">
+          <div className="flex items-center rounded-xl overflow-hidden min-w-31.25 min-h-18.75 w-38 h-20 p-3 bg-gray-200 gap-4">
             <Building2 size={32} className="xl:w-10 xl:h-10" />
 
             <span className="xl:text-lg">
@@ -144,7 +144,7 @@ const ListingsDetailPage = async ({
             </span>
           </div>
 
-          <div className="flex items-center rounded-xl overflow-hidden w-31.25 h-18.75 lg:w-38 lg:h-20 p-3 bg-gray-200 gap-4">
+          <div className="flex items-center rounded-xl overflow-hidden min-w-31.25 min-h-18.75 w-38 h-20 p-3 bg-gray-200 gap-4">
             <Hammer size={32} className="xl:w-10 xl:h-10" />
 
             <span className="xl:text-lg">
@@ -152,7 +152,7 @@ const ListingsDetailPage = async ({
             </span>
           </div>
 
-          <div className="flex items-center rounded-xl overflow-hidden w-31.25 h-18.75 lg:w-38 lg:h-20 p-3 bg-gray-200 gap-4">
+          <div className="flex items-center rounded-xl overflow-hidden min-w-31.25 min-h-18.75 w-38 h-20 p-3 bg-gray-200 gap-4">
             <RulerDimensionLine size={32} className="xl:w-10 xl:h-10" />
 
             <span className="xl:text-lg">
