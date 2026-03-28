@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server';
+import { cookies } from 'next/headers';
 
 import prisma from '@/lib/prisma';
 import { MAX_RESULTS_PER_PAGE } from '@/lib/constants';
@@ -71,19 +72,38 @@ export async function GET(request: NextRequest) {
   );
   const totalRecordsCount = parseInt(countResult[0].count);
 
-  // main query – explicitly list all columns except "searchVector"
-  const mainSql = `
-    SELECT
-      id, address, bedrooms, bathrooms, price, "yearBuilt", "listingDataSource",
-      longitude, latitude, "livingArea", "lotSize", currency, "dateSoldString",
-      country, "livingAreaUnits", description, "daysOnZillow", "brokerageName",
-      "propertyTypeDimension", photos, url, "isFeatured", interior, tag,
-      "lastSoldPrice", "priceHistory", "createdAt", "updatedAt"
-    FROM "PropertyListing"
-    ${whereClause}
-    ORDER BY "createdAt" DESC
-    OFFSET $${paramIndex++} LIMIT $${paramIndex++}
-  `;
+  // check admin cookie
+  const cookieStore = await cookies();
+
+  const isAdmin = cookieStore.get('admin')?.value === 'true';
+
+  let mainSql: string;
+
+  // main query – explicitly list all non-admin columns except "searchVector"
+  if (!isAdmin) {
+    mainSql = `
+      SELECT
+        id, address, bedrooms, bathrooms, price, "yearBuilt", "livingArea", "lotSize", currency, country, "livingAreaUnits", description, "brokerageName", "propertyTypeDimension", photos, "isFeatured", interior, tag, "createdAt", "updatedAt"
+      FROM "PropertyListing"
+      ${whereClause}
+      ORDER BY "createdAt" DESC
+      OFFSET $${paramIndex++} LIMIT $${paramIndex++}
+    `;
+  } else {
+    // main query – explicitly list all columns except "searchVector"
+    mainSql = `
+      SELECT
+        id, address, bedrooms, bathrooms, price, "yearBuilt", "listingDataSource",
+        longitude, latitude, "livingArea", "lotSize", currency, "dateSoldString",
+        country, "livingAreaUnits", description, "daysOnZillow", "brokerageName",
+        "propertyTypeDimension", photos, url, "isFeatured", interior, tag,
+        "lastSoldPrice", "priceHistory", "createdAt", "updatedAt"
+      FROM "PropertyListing"
+      ${whereClause}
+      ORDER BY "createdAt" DESC
+      OFFSET $${paramIndex++} LIMIT $${paramIndex++}
+    `;
+  }
 
   params.push(offset, limit);
 

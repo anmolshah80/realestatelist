@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
 import {
   Bath,
@@ -22,15 +23,10 @@ import { TPropertyListing } from '@/lib/types';
 
 interface ListingsDetailPageProps {
   params: Promise<{ id: string }>;
-  searchParams: { admin?: string };
 }
 
-const ListingsDetailPage = async ({
-  params,
-  searchParams,
-}: ListingsDetailPageProps) => {
+const ListingsDetailPage = async ({ params }: ListingsDetailPageProps) => {
   const { id } = await params;
-  const isAdminMode = searchParams.admin === 'true';
 
   // get host from request headers
   const requestHeaders = await headers();
@@ -38,21 +34,20 @@ const ListingsDetailPage = async ({
   const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
   const baseUrl = `${protocol}://${host}`;
 
+  const cookieStore = await cookies();
+
+  const isAdmin = cookieStore.get('admin')?.value === 'true';
+
   // build API URL
   const url = new URL(`/api/v1/listings/${id}`, baseUrl);
 
   console.log('url: ', url);
 
-  // prepare fetch options
-  const fetchOptions: RequestInit = {};
-
-  if (isAdminMode) {
-    fetchOptions.headers = {
-      'x-admin-token': process.env.ADMIN_SECRET || 'admin-secret',
-    };
-  }
-
-  const response = await fetch(url.toString(), fetchOptions);
+  const response = await fetch(url.toString(), {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
 
   if (!response.ok) {
     notFound();
@@ -174,20 +169,17 @@ const ListingsDetailPage = async ({
           </p>
 
           <p className="text-base md:text-lg font-semibold mt-4">
-            Listing Source:{' '}
+            Brokerage Partner:{' '}
             <span className="font-normal">
               {propertyListing.brokerageName || 'N/A'}
             </span>
           </p>
 
-          {isAdminMode && (
-            <div className="mt-6">
-              <p className="text-base md:text-lg font-semibold">
-                Last Sold Price:{' '}
-                <span className="font-normal">
-                  ${formatNumber(propertyListing.lastSoldPrice) || 'N/A'}
-                </span>
-              </p>
+          {isAdmin && (
+            <section className="mt-6">
+              <h3 className="font-bold text-2xl md:text-center md:text-3xl lg:text-4xl">
+                Internal notes
+              </h3>
 
               <p className="text-base md:text-lg font-semibold">
                 Longitude:{' '}
@@ -202,7 +194,43 @@ const ListingsDetailPage = async ({
                   {propertyListing.latitude || 'N/A'}
                 </span>
               </p>
-            </div>
+
+              <p className="text-base md:text-lg font-semibold">
+                Last Sold Price:{' '}
+                <span className="font-normal">
+                  ${formatNumber(propertyListing.lastSoldPrice) || 'N/A'}
+                </span>
+              </p>
+
+              <p className="text-base md:text-lg font-semibold">
+                Listing Source:{' '}
+                <span className="font-normal">
+                  {propertyListing.listingDataSource || 'N/A'}
+                </span>
+              </p>
+
+              <p className="text-base md:text-lg font-semibold">
+                Days on Zillow:{' '}
+                <span className="font-normal">
+                  {formatNumber(propertyListing.daysOnZillow)} days
+                </span>
+              </p>
+
+              <p className="text-base md:text-lg font-semibold">
+                Original Listing Url:{' '}
+                {propertyListing.url ? (
+                  <Link
+                    href={propertyListing.url}
+                    className="font-normal hover:underline"
+                    target="_blank"
+                  >
+                    {propertyListing.url}
+                  </Link>
+                ) : (
+                  <span>N/A</span>
+                )}
+              </p>
+            </section>
           )}
         </section>
       </section>

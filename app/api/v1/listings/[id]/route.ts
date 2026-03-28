@@ -1,12 +1,12 @@
 import { NextRequest } from 'next/server';
+import { cookies } from 'next/headers';
 
 import prisma from '@/lib/prisma';
-
-const ADMIN_SECRET = process.env.ADMIN_SECRET || 'admin-secret';
+import { TPropertyListing } from '@/lib/types';
 
 // Source -> https://nextjs.org/docs/app/getting-started/route-handlers#route-context-helper
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   ctx: RouteContext<'/api/v1/listings/[id]'>,
 ) {
   const { id } = await ctx.params;
@@ -19,29 +19,55 @@ export async function GET(
     });
   }
 
-  const property = await prisma.propertyListing.findUnique({
-    where: { id: parsedId },
-  });
+  let propertyListing: Partial<TPropertyListing> | null;
 
-  console.log('property: ', property);
+  // check admin cookie
+  const cookieStore = await cookies();
 
-  if (!property) {
+  const isAdmin = cookieStore.get('admin')?.value === 'true';
+
+  console.log('(listing-id) route isAdmin: ', isAdmin);
+
+  // If there is no admin, select non-admin fields
+  if (!isAdmin) {
+    propertyListing = await prisma.propertyListing.findUnique({
+      where: { id: parsedId },
+      select: {
+        id: true,
+        address: true,
+        bedrooms: true,
+        bathrooms: true,
+        price: true,
+        yearBuilt: true,
+        livingArea: true,
+        lotSize: true,
+        currency: true,
+        country: true,
+        livingAreaUnits: true,
+        description: true,
+        brokerageName: true,
+        propertyTypeDimension: true,
+        photos: true,
+        isFeatured: true,
+        interior: true,
+        tag: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  } else {
+    propertyListing = await prisma.propertyListing.findUnique({
+      where: { id: parsedId },
+    });
+  }
+
+  console.log('propertyListing: ', propertyListing);
+
+  if (!propertyListing) {
     return new Response(JSON.stringify({ error: 'Not found' }), {
       status: 404,
     });
   }
 
-  // check admin header
-  const adminToken = request.headers.get('x-admin-token');
-  const isAdmin = adminToken === ADMIN_SECRET;
-
-  // if not admin, remove priceHistory
-  if (!isAdmin && property.priceHistory) {
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    const { priceHistory, ...rest } = property;
-
-    return new Response(JSON.stringify(rest), { status: 200 });
-  }
-
-  return new Response(JSON.stringify(property), { status: 200 });
+  return new Response(JSON.stringify(propertyListing), { status: 200 });
 }
