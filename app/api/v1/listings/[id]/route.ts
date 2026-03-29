@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 
 import prisma from '@/lib/prisma';
 import { TPropertyListing } from '@/lib/types';
+import { ADMIN_COOKIE_NAME } from '@/lib/constants';
 
 // Source -> https://nextjs.org/docs/app/getting-started/route-handlers#route-context-helper
 export async function GET(
@@ -24,7 +25,7 @@ export async function GET(
   // check admin cookie
   const cookieStore = await cookies();
 
-  const isAdmin = cookieStore.get('admin')?.value === 'true';
+  const isAdmin = cookieStore.get(ADMIN_COOKIE_NAME)?.value === 'true';
 
   console.log('(listing-id) route isAdmin: ', isAdmin);
 

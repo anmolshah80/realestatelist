@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 
 import prisma from '@/lib/prisma';
-import { MAX_RESULTS_PER_PAGE } from '@/lib/constants';
+import { MAX_RESULTS_PER_PAGE, ADMIN_COOKIE_NAME } from '@/lib/constants';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
   // check admin cookie
   const cookieStore = await cookies();
 
-  const isAdmin = cookieStore.get('admin')?.value === 'true';
+  const isAdmin = cookieStore.get(ADMIN_COOKIE_NAME)?.value === 'true';
 
   let mainSql: string;
 

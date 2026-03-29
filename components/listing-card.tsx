@@ -33,8 +33,10 @@ const ListingCard = ({
   listingType,
 }: ListingCardProps) => {
   const totalBaths = Math.ceil(parseFloat(bathrooms));
-  const formattedBathsText =
-    totalBaths > 1 ? `${totalBaths} baths` : `${totalBaths} bath`;
+
+  const formatText = (count: number, units: string = 'baths') => {
+    return count > 1 ? `${count} ${units}` : `${count} ${units.slice(0, -1)}`;
+  };
 
   return (
     <Link
@@ -60,7 +62,7 @@ const ListingCard = ({
         <p className="text-gray-600 text-xl md:text-lg mt-1">{location}</p>
 
         <div className="flex items-center justify-between gap-2 mt-4 text-gray-700 text-base">
-          <p>{bedrooms} beds</p>
+          <p>{formatText(parseInt(bedrooms), 'beds')}</p>
           <p>
             {formatNumber(livingArea)}{' '}
             {livingAreaUnits === 'Square Feet' ? 'sq ft' : 'sq m'}
@@ -69,7 +71,7 @@ const ListingCard = ({
           <Tooltip>
             <TooltipTrigger>
               <p className="border-b border-dotted border-gray-400 cursor-help group">
-                {formattedBathsText}
+                {formatText(totalBaths, 'baths')}
               </p>
             </TooltipTrigger>
             <TooltipContent>

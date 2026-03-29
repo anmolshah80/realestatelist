@@ -17,9 +17,11 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import ImageWithFallback from '@/components/image-with-fallback';
+import Header from '@/components/header';
 
 import { formatAddress, formatNumber, getBathroomTooltip } from '@/lib/utils';
 import { TPropertyListing } from '@/lib/types';
+import { ADMIN_COOKIE_NAME } from '@/lib/constants';
 
 interface ListingsDetailPageProps {
   params: Promise<{ id: string }>;
@@ -36,7 +38,7 @@ const ListingsDetailPage = async ({ params }: ListingsDetailPageProps) => {
 
   const cookieStore = await cookies();
 
-  const isAdmin = cookieStore.get('admin')?.value === 'true';
+  const isAdmin = cookieStore.get(ADMIN_COOKIE_NAME)?.value === 'true';
 
   // build API URL
   const url = new URL(`/api/v1/listings/${id}`, baseUrl);
@@ -62,12 +64,7 @@ const ListingsDetailPage = async ({ params }: ListingsDetailPageProps) => {
 
   return (
     <main className="flex flex-col items-center justify-center w-full px-4 py-10 gap-8 md:px-32">
-      <Link
-        href={'/'}
-        className="text-4xl font-bold mx-auto hover:underline hover:decoration-blue-500 text-center"
-      >
-        Real Estate Listings
-      </Link>
+      <Header />
 
       <section className="flex flex-col gap-2 justify-center md:items-center">
         <div className="w-full mx-auto flex md:items-center justify-center flex-col">
@@ -96,7 +93,9 @@ const ListingsDetailPage = async ({ params }: ListingsDetailPageProps) => {
             <BedDouble size={20} className="lg:w-8 lg:h-8" />
             <span className="font-bold lg:text-xl">
               {propertyListing.bedrooms}{' '}
-              <span className="font-normal">beds</span>
+              <span className="font-normal">
+                {parseInt(propertyListing.bedrooms) > 1 ? 'beds' : 'bed'}
+              </span>
             </span>
           </div>
 

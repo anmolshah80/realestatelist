@@ -1,19 +1,14 @@
 import { Suspense } from 'react';
-import Link from 'next/link';
 
 import ListingsLoading from '@/components/listings-loading';
 import SearchForm from '@/components/search-form';
 import ListingsContent from '@/components/listings-content';
+import Header from '@/components/header';
 
-const ListingsPage = () => {
+const ListingsPage = async () => {
   return (
     <main className="flex flex-col items-center justify-between w-full px-8 py-10 gap-8">
-      <Link
-        href={'/'}
-        className="text-4xl font-bold mx-auto hover:underline hover:decoration-blue-500"
-      >
-        Real Estate Listings
-      </Link>
+      <Header />
 
       <SearchForm />
 
