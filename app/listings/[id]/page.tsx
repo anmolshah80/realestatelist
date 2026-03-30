@@ -27,6 +27,112 @@ interface ListingsDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
+interface PriceHistoryTimelineProps {
+  history: string;
+}
+
+// render price history (array of price events or object)
+const PriceHistoryTimeline = ({ history }: PriceHistoryTimelineProps) => {
+  // helper function to format timestamp (milliseconds) into readable date
+  const formatDate = (timestamp: number) => {
+    return new Date(timestamp).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
+
+  // if price history is an empty string
+  if (!history) return <p>No price history available.</p>;
+
+  try {
+    const parsed = JSON.parse(history);
+
+    // Array: timeline of price events
+    if (Array.isArray(parsed)) {
+      if (parsed.length === 0) return <p>No price history events found.</p>;
+
+      return (
+        <div className="mt-4 space-y-2">
+          <h4 className="font-semibold text-xl">Price History Timeline</h4>
+          <div className="max-h-96 overflow-y-auto border rounded p-4">
+            {parsed.map((event, idx) => (
+              <div key={idx} className="border-b border-gray-200 py-3">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <p className="font-medium">{event.event}</p>
+                    <p className="text-sm text-gray-600">
+                      {event.date || formatDate(event.time)}
+                    </p>
+                  </div>
+                  {event.price && (
+                    <p className="font-semibold">
+                      ${Number(event.price).toLocaleString()}
+                      {event.priceChangeRate !== undefined && (
+                        <span
+                          className={`ml-2 text-xs ${
+                            event.priceChangeRate > 0
+                              ? 'text-green-600'
+                              : event.priceChangeRate < 0
+                                ? 'text-red-600'
+                                : 'text-gray-500'
+                          }`}
+                        >
+                          ({event.priceChangeRate > 0 ? '+' : ''}
+                          {(event.priceChangeRate * 100).toFixed(1)}%)
+                        </span>
+                      )}
+                    </p>
+                  )}
+                </div>
+                {event.source && (
+                  <p className="text-xs text-gray-400 mt-1">
+                    Source: {event.source}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // Object: interior/feature details
+    if (typeof parsed === 'object' && parsed !== null) {
+      return (
+        <div className="mt-4">
+          <h4 className="font-semibold text-xl">Interior & Features</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+            {Object.entries(parsed).map(([key, value]) => (
+              <div key={key} className="text-sm">
+                <span className="font-medium capitalize">
+                  {key.replace(/_/g, ' ')}:{' '}
+                </span>
+                {typeof value === 'object' ? (
+                  <span className="text-gray-600">
+                    {Object.entries(value as Record<string, unknown>)
+                      .map(([k, v]) => `${k}: ${v}`)
+                      .join(', ')}
+                  </span>
+                ) : (
+                  <span className="text-gray-600">{String(value)}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // display raw string as fallback if parsing doesn't result in expected structures
+    return <pre className="mt-2 whitespace-pre-wrap text-sm">{history}</pre>;
+  } catch (error) {
+    console.error('Failed to parse priceHistory:', error);
+
+    return <pre className="mt-2 whitespace-pre-wrap text-sm">{history}</pre>;
+  }
+};
+
 const ListingsDetailPage = async ({ params }: ListingsDetailPageProps) => {
   const { id } = await params;
 
@@ -43,8 +149,6 @@ const ListingsDetailPage = async ({ params }: ListingsDetailPageProps) => {
   // build API URL
   const url = new URL(`/api/v1/listings/${id}`, baseUrl);
 
-  console.log('url: ', url);
-
   const response = await fetch(url.toString(), {
     headers: {
       Cookie: cookieStore.toString(),
@@ -56,8 +160,6 @@ const ListingsDetailPage = async ({ params }: ListingsDetailPageProps) => {
   }
 
   const propertyListing: TPropertyListing = await response.json();
-
-  console.log('propertyListing: ', propertyListing);
 
   const totalBaths = Math.ceil(parseFloat(propertyListing.bathrooms));
   const formattedBathsText = totalBaths > 1 ? 'baths' : 'bath';
@@ -75,7 +177,7 @@ const ListingsDetailPage = async ({ params }: ListingsDetailPageProps) => {
               alt={`Property image with ${propertyListing.bedrooms} bedrooms and ${propertyListing.bathrooms} bathrooms`}
               width={650}
               height={450}
-              className="rounded-lg shadow lg:w-175 lg:h-125"
+              className="rounded-lg shadow lg:min-w-175 lg:min-h-125"
             />
 
             <p className="absolute top-4 left-4 bg-white text-gray-800 text-xs font-bold px-3 py-1 rounded-md">
@@ -229,6 +331,18 @@ const ListingsDetailPage = async ({ params }: ListingsDetailPageProps) => {
                   <span>N/A</span>
                 )}
               </p>
+
+              {propertyListing.priceHistory && (
+                <div className="mt-6 p-4 bg-gray-50 rounded border">
+                  <h3 className="font-bold text-2xl md:text-3xl mb-2 mx-auto">
+                    Price History
+                  </h3>
+
+                  <PriceHistoryTimeline
+                    history={propertyListing.priceHistory}
+                  />
+                </div>
+              )}
             </section>
           )}
         </section>

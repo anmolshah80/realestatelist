@@ -43,7 +43,7 @@ const ListingCard = ({
       href={`/listings/${listingId}`}
       className="flex flex-col h-full transition-all duration-150 ease-out hover:shadow-xl hover:shadow-gray-200"
     >
-      <div className="relative h-96 md:h-72 w-full overflow-hidden rounded-t-md">
+      <div className="relative h-72 sm:h-80 md:h-72 w-full overflow-hidden rounded-t-md">
         <ImageWithFallback
           src={imageSrc}
           fallbackImageSrc={'/assets/placeholder-image.webp'}
