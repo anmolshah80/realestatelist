@@ -15,9 +15,12 @@ export async function GET(
   const parsedId = parseInt(id);
 
   if (isNaN(parsedId)) {
-    return new Response(JSON.stringify({ error: 'Invalid ID' }), {
-      status: 400,
-    });
+    return new Response(
+      JSON.stringify({ error: 'Invalid property listing ID' }),
+      {
+        status: 400,
+      },
+    );
   }
 
   let propertyListing: Partial<TPropertyListing> | null;
@@ -26,8 +29,6 @@ export async function GET(
   const cookieStore = await cookies();
 
   const isAdmin = cookieStore.get(ADMIN_COOKIE_NAME)?.value === 'true';
-
-  console.log('(listing-id) route isAdmin: ', isAdmin);
 
   // If there is no admin, select non-admin fields
   if (!isAdmin) {
@@ -62,12 +63,13 @@ export async function GET(
     });
   }
 
-  console.log('propertyListing: ', propertyListing);
-
   if (!propertyListing) {
-    return new Response(JSON.stringify({ error: 'Not found' }), {
-      status: 404,
-    });
+    return new Response(
+      JSON.stringify({ error: 'Property listing not found' }),
+      {
+        status: 404,
+      },
+    );
   }
 
   return new Response(JSON.stringify(propertyListing), { status: 200 });

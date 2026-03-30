@@ -37,6 +37,7 @@ const ImageWithFallback = ({
       sizes={sizes}
       width={width}
       height={height}
+      loading="eager"
       className={cn('object-cover', className)}
       onError={() => {
         setImgSrc(fallbackImageSrc);

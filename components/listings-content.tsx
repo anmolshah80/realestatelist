@@ -33,8 +33,6 @@ const ListingsContent = () => {
   const parsedPage = pageNumberSchema.safeParse(page);
   const currentPage = parsedPage.data || 1;
 
-  console.log('currentPage: ', currentPage);
-
   useEffect(() => {
     const fetchListings = async () => {
       setLoading(true);
@@ -68,12 +66,8 @@ const ListingsContent = () => {
     fetchListings();
   }, [currentPage, priceMin, priceMax, beds, baths, propertyType, keyword]);
 
-  console.log('totalRecordsCount: ', totalRecordsCount);
-
   if (loading)
     return <ListingsLoading className="top-[50%] md:top-[80%] xl:top-[70%]" />;
-
-  console.log('Listings: ', listings);
 
   if (!listings || listings.length === 0)
     return <p className="text-gray-600 text-2xl mt-6">No listings found.</p>;

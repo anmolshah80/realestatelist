@@ -11,8 +11,6 @@ const Header = async () => {
 
   const isAdminUser = cookieStore.get(ADMIN_COOKIE_NAME)?.value === 'true';
 
-  console.log('listings page isAdminUser: ', isAdminUser);
-
   return (
     <div className="flex items-center justify-between w-full">
       <Link
