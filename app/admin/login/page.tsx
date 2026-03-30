@@ -47,6 +47,17 @@ const AdminLoginPage = () => {
         Please enter your login details
       </p>
 
+      <button
+        type="button"
+        onClick={() => {
+          setEmail('admin@gmail.com');
+          setPassword('AdminUser@1892#');
+        }}
+        className="text-base bg-transparent transition-colors rounded-full text-black border-2 border-blue-700 hover:bg-blue-100 px-2 sm:px-6 2xl:px-4 py-1 cursor-pointer -mt-4"
+      >
+        Use Test Credentials
+      </button>
+
       <div className="flex flex-col gap-2">
         <Label htmlFor="email" className="text-black text-xl">
           Email address
@@ -65,7 +76,6 @@ const AdminLoginPage = () => {
 
         {error && <p className="text-red-500 ml-2">{error}</p>}
       </div>
-
       <div className="flex flex-col gap-2">
         <Label htmlFor="password" className="text-black text-xl">
           Password
@@ -82,7 +92,6 @@ const AdminLoginPage = () => {
           className="h-11 w-3xs sm:w-[20rem] rounded-md border border-input py-2 pr-3 text-gray-700 shadow-sm placeholder:italic placeholder:text-gray-500 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:opacity-50 dark:sm:text-base bg-background border-blue-500 focus-visible:ring-transparent focus-visible:ring-0"
         />
       </div>
-
       <Button
         type="submit"
         className="bg-blue-500 text-lg text-white px-6 py-5 rounded cursor-pointer hover:bg-blue-600"
