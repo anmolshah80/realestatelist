@@ -112,8 +112,9 @@ pnpm test
 ## Testing added
 
 - `__tests__/api/listings-route.test.tsx` — API route test for property listings
-- `__tests__/api/property-types.test.ts` — API route test for property types
-- `__tests__/api/listing-detail.test.ts` — API route test for property listing detail retrieval
+- `__tests__/api/property-types-route.test.ts` — API route test for property types
+- `__tests__/api/listing-detail-route.test.ts` — API route test for property listing detail retrieval
+- `__tests__/api/admin-auth-route.test.ts` — API route test for admin authentication
 
 ## Notes
 

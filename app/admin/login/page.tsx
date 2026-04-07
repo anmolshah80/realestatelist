@@ -1,7 +1,7 @@
 'use client';
 
 import { SubmitEvent, useState } from 'react';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,8 @@ const AdminLoginPage = () => {
   const [error, setError] = useState('');
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || '/';
 
   const handleLogin = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,7 +29,7 @@ const AdminLoginPage = () => {
     if (res.ok) {
       router.refresh();
 
-      redirect('/');
+      router.push(redirectTo);
     } else {
       const data = await res.json();
 
