@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { ADMIN_COOKIE_NAME } from './lib/constants';
+
+import { ADMIN_COOKIE_NAME } from '@/lib/constants';
 
 export default async function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
