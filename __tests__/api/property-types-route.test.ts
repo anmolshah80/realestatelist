@@ -52,6 +52,11 @@ describe('GET /api/v1/property-types', () => {
 
     mockPrisma.$queryRaw.mockRejectedValue(new Error('Database error'));
 
+    // suppress console.error during this test since we're testing error handling
+    const consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
     const response = await GET();
 
     expect(response.status).toBe(500);
@@ -61,5 +66,7 @@ describe('GET /api/v1/property-types', () => {
     expect(body).toEqual({ error: 'Failed to fetch property types' });
 
     expect(mockPrisma.$queryRaw).toHaveBeenCalled();
+
+    consoleErrorSpy.mockRestore();
   });
 });
